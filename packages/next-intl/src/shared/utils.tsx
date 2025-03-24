@@ -194,3 +194,36 @@ export function isPromise<Value>(
   // https://github.com/amannn/next-intl/issues/1711
   return typeof (value as any).then === 'function';
 }
+
+/**
+ * Text direction types for internationalized interfaces
+ */
+export type TextDirection = "ltr" | "rtl";
+
+/**
+ * Comprehensive set of right-to-left language codes
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir
+ */
+const RTL_LOCALES = new Set([
+  "ar", // Arabic
+  "he", // Hebrew
+  "fa", // Persian/Farsi
+  "ur", // Urdu
+  "ps", // Pashto
+  "sd", // Sindhi
+  "dv", // Dhivehi/Maldivian
+  "ku-arab", // Kurdish (Arabic script)
+  "ckb", // Central Kurdish
+  "ug", // Uyghur
+]);
+
+/**
+ * Determines if a locale uses right-to-left text direction
+ * @param locale - The locale code to check
+ * @returns boolean indicating if the locale uses right-to-left direction
+ */
+export function isRTL(locale: Locale): boolean {
+  // Handle locale codes that may include region (e.g., "ar-EG")
+  const baseLocale = locale.split("-")[0].toLowerCase();
+  return RTL_LOCALES.has(baseLocale) || RTL_LOCALES.has(locale);
+}
